@@ -3,6 +3,9 @@ __pycache__/
 *.py[cod]
 *$py.class
 
+.png
+.PNG
+
 # C extensions
 *.so
 
@@ -105,7 +108,8 @@ weights/
 # data folder
 data/samples
 data/temptest
-data/custom/s12-1
+data/custom
+
 
 # output folder
 output/
