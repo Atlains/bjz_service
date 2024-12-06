@@ -1,0 +1,953 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="apple-mobile-web-app-title" content="精子质量评测系统">
+  <title>精子质量评测系统</title>
+  <meta name="viewport" content="width=device-width">
+  <style>
+    @import url(https://fonts.googleapis.com/css?family=Lato:400,300,700);
+
+    body,
+    html {
+      height: 100%;
+      margin: 0;
+      font-family: lato;
+    }
+
+    h2 {
+      margin-bottom: 0px;
+      margin-top: 25px;
+      text-align: center;
+      font-weight: 200;
+      font-size: 19px;
+      font-size: 1.2rem;
+
+    }
+
+    .container {
+      height: 100%;
+      -webkit-box-pack: center;
+      -webkit-justify-content: center;
+      -ms-flex-pack: center;
+      justify-content: center;
+      -webkit-box-align: center;
+      -webkit-align-items: center;
+      -ms-flex-align: center;
+      align-items: center;
+      display: -webkit-box;
+      display: -webkit-flex;
+      display: -ms-flexbox;
+      display: flex;
+      background: -webkit-linear-gradient(#c5e5e5, #ccddf9);
+      background: linear-gradient(#c9e5e9, #ccddf9);
+    }
+
+    .dropdown-select.visible {
+      display: block;
+    }
+
+    .dropdown {
+      position: relative;
+    }
+
+    ul {
+      margin: 0;
+      padding: 0;
+    }
+
+    ul li {
+      list-style: none;
+      padding-left: 10px;
+      cursor: pointer;
+    }
+
+    ul li:hover {
+      background: rgba(255, 255, 255, 0.1);
+    }
+
+    .dropdown-select {
+      position: absolute;
+      background: #77aaee;
+      text-align: left;
+      box-shadow: 0px 3px 5px 0px rgba(0, 0, 0, 0.1);
+      border-bottom-right-radius: 5px;
+      border-bottom-left-radius: 5px;
+      width: 90%;
+      left: 2px;
+      line-height: 2em;
+      margin-top: 2px;
+      box-sizing: border-box;
+    }
+
+    .thin {
+      font-weight: 400;
+    }
+
+    .small {
+      font-size: 12px;
+      font-size: .8rem;
+    }
+
+    .half-input-table {
+      border-collapse: collapse;
+      width: 100%;
+    }
+
+    .half-input-table td:first-of-type {
+      border-right: 10px solid #4488dd;
+      width: 50%;
+    }
+
+    .window {
+      height: 540px;
+      width: 800px;
+      background: #fff;
+      display: -webkit-box;
+      display: -webkit-flex;
+      display: -ms-flexbox;
+      display: flex;
+      box-shadow: 0px 15px 50px 10px rgba(0, 0, 0, 0.2);
+      border-radius: 30px;
+      z-index: 10;
+    }
+
+    .order-info {
+      height: 100%;
+      width: 50%;
+      padding-left: 25px;
+      padding-right: 25px;
+      box-sizing: border-box;
+      display: -webkit-box;
+      display: -webkit-flex;
+      display: -ms-flexbox;
+      display: flex;
+      -webkit-box-pack: center;
+      -webkit-justify-content: center;
+      -ms-flex-pack: center;
+      justify-content: center;
+      position: relative;
+    }
+
+    .price {
+      bottom: 0px;
+      position: absolute;
+      right: 0px;
+      color: #4488dd;
+    }
+
+    .order-table td:first-of-type {
+      width: 25%;
+    }
+
+    .order-table {
+      position: relative;
+    }
+
+    .line {
+      height: 1px;
+      width: 100%;
+      margin-top: 10px;
+      margin-bottom: 10px;
+      background: #ddd;
+    }
+
+    .order-table td:last-of-type {
+      vertical-align: top;
+      padding-left: 25px;
+    }
+
+    .order-info-content {
+      table-layout: fixed;
+
+    }
+
+    .full-width {
+      width: 100%;
+    }
+
+    .pay-btn {
+      border: none;
+      background: #22b877;
+      line-height: 2em;
+      border-radius: 10px;
+      font-size: 19px;
+      font-size: 1.2rem;
+      color: #fff;
+      cursor: pointer;
+      position: absolute;
+      bottom: 25px;
+      width: calc(100% - 50px);
+      -webkit-transition: all .2s ease;
+      transition: all .2s ease;
+    }
+
+    .submit-btn {
+      --easing: cubic-bezier(.5, 0, .5, 1);
+      --duration: .3s;
+      --blue: #6C80F5;
+      border: none;
+      font-size: 19px;
+      font-size: 1.2rem;
+      cursor: pointer;
+      position: absolute;
+      bottom: 25px;
+      -webkit-transition: all .2s ease;
+      transition: all .2s ease;
+    }
+
+    .pay-btn:hover {
+      background: #22a877;
+      color: #eee;
+      -webkit-transition: all .2s ease;
+      transition: all .2s ease;
+    }
+
+    .total {
+      margin-top: 25px;
+      font-size: 20px;
+      font-size: 1.3rem;
+      position: absolute;
+      bottom: 30px;
+      right: 27px;
+      left: 35px;
+    }
+
+    .dense {
+      line-height: 1.2em;
+      font-size: 16px;
+      font-size: 1rem;
+    }
+
+    .input-field {
+      background: rgba(255, 255, 255, 0.1);
+      margin-bottom: 10px;
+      margin-top: 3px;
+      line-height: 1.5em;
+      font-size: 20px;
+      font-size: 1.3rem;
+      border: none;
+      padding: 5px 10px 5px 10px;
+      color: #fff;
+      box-sizing: border-box;
+      width: 100%;
+      margin-left: auto;
+      margin-right: auto;
+    }
+
+    .credit-info {
+      background: #4488dd;
+      height: 100%;
+      width: 50%;
+      color: #eee;
+      -webkit-box-pack: center;
+      -webkit-justify-content: center;
+      -ms-flex-pack: center;
+      justify-content: center;
+      font-size: 14px;
+      font-size: .9rem;
+      display: -webkit-box;
+      display: -webkit-flex;
+      display: -ms-flexbox;
+      display: flex;
+      box-sizing: border-box;
+      padding-left: 25px;
+      padding-right: 25px;
+      border-top-right-radius: 30px;
+      border-bottom-right-radius: 30px;
+      position: relative;
+    }
+
+    .dropdown-btn {
+      background: rgba(255, 255, 255, 0.1);
+      width: 100%;
+      border-radius: 5px;
+      text-align: center;
+      line-height: 1.5em;
+      cursor: pointer;
+      position: relative;
+      -webkit-transition: background .2s ease;
+      transition: background .2s ease;
+    }
+
+    .dropdown-btn:after {
+      content: '\25BE';
+      right: 8px;
+      position: absolute;
+    }
+
+    .dropdown-btn:hover {
+      background: rgba(255, 255, 255, 0.2);
+      -webkit-transition: background .2s ease;
+      transition: background .2s ease;
+    }
+
+    .dropdown-select {
+      display: none;
+    }
+
+    .credit-card-image {
+      display: block;
+      max-height: 80px;
+      margin-left: auto;
+      margin-right: auto;
+      margin-top: 35px;
+      margin-bottom: 15px;
+    }
+
+    .credit-info-content {
+      margin-top: 25px;
+      -webkit-flex-flow: column;
+      -ms-flex-flow: column;
+      flex-flow: column;
+      display: -webkit-box;
+      display: -webkit-flex;
+      display: -ms-flexbox;
+      display: flex;
+      width: 100%;
+    }
+
+    @media (max-width: 600px) {
+      .window {
+        width: 100%;
+        height: 100%;
+        display: block;
+        border-radius: 0px;
+      }
+
+      .order-info {
+        width: 100%;
+        height: auto;
+        padding-bottom: 100px;
+        border-radius: 0px;
+      }
+
+      .credit-info {
+        width: 100%;
+        height: auto;
+        padding-bottom: 100px;
+        border-radius: 0px;
+      }
+
+      .pay-btn {
+        border-radius: 0px;
+      }
+    }
+
+    /* ---------------------------------- */
+    .toggle-wrapper {
+      font-size: 1rem;
+      display: -webkit-box;
+      display: flex;
+      -webkit-box-align: center;
+      align-items: center;
+    }
+
+    #toggle {
+      width: 2em;
+      height: 2em;
+      visibility: hidden;
+      position: absolute;
+    }
+
+    #app {
+      display: -webkit-box;
+      display: flex;
+      -webkit-box-orient: horizontal;
+      -webkit-box-direction: normal;
+      flex-direction: row;
+      color: #404843;
+    }
+
+    .fancy-toggle {
+      position: relative;
+      font-size: 3rem;
+      width: 1em;
+      height: 1em;
+      padding: 0.2em;
+      box-sizing: content-box;
+      margin-right: 1.5em;
+      -webkit-transition: -webkit-transform 0.4s var(--easing);
+      transition: -webkit-transform 0.4s var(--easing);
+      transition: transform 0.4s var(--easing);
+      transition: transform 0.4s var(--easing), -webkit-transform 0.4s var(--easing);
+      -webkit-transition-property: width, background-color, -webkit-transform;
+      transition-property: width, background-color, -webkit-transform;
+      transition-property: transform, width, background-color;
+      transition-property: transform, width, background-color, -webkit-transform;
+    }
+
+    .fancy-toggle .bg {
+      background: grey;
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 175%;
+      height: 100%;
+      border-radius: 2em;
+      box-shadow: 0 0.25em 0.5em rgba(0, 0, 0, 0.1);
+      -webkit-transition: inherit;
+      transition: inherit;
+    }
+
+    .fancy-toggle .circle {
+      width: 1em;
+      height: 1em;
+      background: white;
+      box-shadow: 0 0.25em 0.5em rgba(0, 0, 0, 0.1);
+      border-radius: 50%;
+      -webkit-transition: inherit;
+      transition: inherit;
+      position: absolute;
+    }
+
+    .fancy-toggle .circle>svg {
+      -webkit-transform: rotate(-90deg);
+      transform: rotate(-90deg);
+      margin: -.1em;
+    }
+
+    .fancy-toggle .loader {
+      stroke: var(--blue);
+      stroke-width: 6;
+      fill: none;
+      stroke-dasharray: 1 1;
+      stroke-dashoffset: -1;
+      -webkit-transition: stroke-dasharray calc(var(--timeout, 0) * 0.5ms) linear, stroke-dashoffset 1000ms linear;
+      transition: stroke-dasharray calc(var(--timeout, 0) * 0.5ms) linear, stroke-dashoffset 1000ms linear;
+    }
+
+    .status {
+      overflow: hidden;
+      display: grid;
+      -webkit-user-select: none;
+      -moz-user-select: none;
+      -ms-user-select: none;
+      user-select: none;
+    }
+
+    .status>div {
+      grid-area: 1 / 1;
+    }
+
+    .status-text {
+      -webkit-transition: -webkit-transform var(--duration) var(--easing);
+      transition: -webkit-transform var(--duration) var(--easing);
+      transition: transform var(--duration) var(--easing);
+      transition: transform var(--duration) var(--easing), -webkit-transform var(--duration) var(--easing);
+    }
+
+    .status-text[data-for="off"],
+    .status-text[data-for="pending"] {
+      -webkit-transform: translateY(-100%);
+      transform: translateY(-100%);
+    }
+
+    .status-text[data-for="on"] {
+      -webkit-transform: translateY(100%);
+      transform: translateY(100%);
+    }
+
+    .status-text[data-active]~[data-for="pending"] {
+      -webkit-transform: translateY(100%);
+      transform: translateY(100%);
+    }
+
+    .status-text[data-active] {
+      -webkit-transform: translateY(0);
+      transform: translateY(0);
+    }
+
+    [data-state="off"] .fancy-toggle .bg {
+      background: #E44B45;
+    }
+
+    [data-state="pending"] .fancy-toggle {
+      -webkit-transform: translateX(50%);
+      transform: translateX(50%);
+    }
+
+    [data-state="pending"] .fancy-toggle .bg {
+      width: 100%;
+      background: #b5b5b5;
+    }
+
+    [data-state="pending"] .fancy-toggle .loader {
+      stroke-dashoffset: 0;
+    }
+
+    [data-state="on"] .fancy-toggle .bg {
+      background: #1BCE6F;
+    }
+
+    [data-state="on"] .fancy-toggle .circle {
+      -webkit-transform: translateX(100%);
+      transform: translateX(100%);
+    }
+
+    [data-state="on"] .fancy-toggle .loader {
+      stroke-dashoffset: 1;
+    }
+
+    #button_switch {
+      height: 100%;
+      width: 100%;
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      /* position: relative; */
+      display: -webkit-box;
+      display: flex;
+      -webkit-box-pack: center;
+          justify-content: center;
+  -webkit-box-align: center;
+          align-items: center;
+      -webkit-transition: background-color 0.3s var(--easing);
+      transition: background-color 0.3s var(--easing);
+      background-color: var(--bg-color);
+    }
+
+    #button_switch[data-toggle-state="off"] {
+      --bg-color: #FFE3E2;
+    }
+
+    #button_switch[data-toggle-state="pending"] {
+      --bg-color: #DCE1FF;
+    }
+
+    #button_switch[data-toggle-state="on"] {
+      --bg-color: #E1FCED;
+    }
+
+  </style>
+</head>
+
+<body translate="no">
+  <div class='container'>
+    <div class='window'>
+      <div class='order-info'>
+        <div class='order-info-content'>
+          <h2>人工智能精子质量评测系统</h2>
+          <div class='line'></div>
+          <table class='order-table'>
+            <tbody>
+              <tr>
+                <td>
+                  <br> <span class='thin'>显微镜控制系统网络地址</span>
+                  <br> <span class='thin' id="db_host">10.0.5.10</span>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+          <div class='line'></div>
+
+          <table class='order-table'>
+            <tbody>
+              <tr>
+                <td>
+                  <span class='thin'>显微镜控制系统网络端口</span>
+                  <br> <span class='thin' id="db_port">6666</span>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+          <div class='line'></div>
+	  
+          <table class='order-table'>
+            <tbody>
+              <tr>
+                <td>
+                  <span class='thin'>自动提交结果的处理帧数</span>
+                  <br> <span class='thin' id="db_frames">400</span>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+          <div class='line'></div>
+
+          <table class='order-table'>
+            <tbody>
+              <tr>
+                <td>
+                  <br> <span class='thin'>系统状态</span>
+                  <br><br> <span class='thin' id="sys_status">未运行</span>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+          <div class='line'></div>
+
+          <div class='submit-btn'>
+          <div translate="no" id="button_switch">
+            <form id="app" data-state="off">
+              <div class="toggle-wrapper">
+                <input id="toggle" name="toggle" type="checkbox">
+                <label for="toggle" class="fancy-toggle">
+                  <div class="bg"></div>
+                  <div class="circle">
+                    <svg viewBox="0 0 100 100">
+                      <circle class="loader" cx="50" cy="50" r="45" pathLength="1" />
+                    </svg>
+                  </div>
+                </label>
+                <output class="status">
+                  <div class="status-text" data-for="off">设备已关闭</div>
+                  <div class="status-text" data-for="pending">请等待...</div>
+                  <div class="status-text" data-for="on">设备已开启</div>
+                </output>
+              </div>
+            </form>
+          </div>
+          </div>
+        </div>
+      </div>
+      <div class='credit-info'>
+        <div class='credit-info-content'>
+          <table class='half-input-table'>
+            <tr>
+              <td>
+                <h2>慎重：系统参数更新</h2>
+              </td>
+            </tr>
+          </table>
+
+          <br>
+
+          网络IP地址
+          <input class='input-field' id="ip"></input>
+          端口号
+          <input class='input-field' id="port"></input>
+          处理帧数(25的整数倍)
+          <input class='input-field' id="frames"></input>
+
+          <table class='half-input-table'>
+            <tr>
+              <td>
+                <h2 id="progress"></h2>
+              </td>
+            </tr>
+          </table>
+          <button class='pay-btn' id="reset_button" style="bottom:4em;">重置</button>
+          <button class='pay-btn' id="update_button">更新</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script src="/js/jquery.min.js"></script>
+  <script>
+    console.clear();
+    const STATUS_CLOSED      = 'closed';
+    const STATUS_INIT        = 'initializing';
+    const STATUS_CONNECTED   = 'connected';
+    const STATUS_NETERROR    = 'net_error';
+    const STATUS_ERROR       = 'error';
+
+    var current_sys_status = STATUS_CLOSED;
+    const elToggle = document.querySelector('#toggle');
+    const elApp = document.querySelector('#app');
+    // const elBody = document.querySelector('#button_switch');;
+
+
+
+    const TIMEOUT = 1000;
+
+    // elBody.style.setProperty('--timeout', TIMEOUT);
+
+    const transition = (state, event) => {
+      switch (state) {
+        case 'off':
+          return 'pending';
+        case 'pending':
+          switch (event.type) {
+            case 'ALL_ON':
+              return 'on';
+            case 'ALL_OFF':
+              return 'off';
+            case 'PENDING':
+              return 'pending';
+            default:
+              return state;
+          }
+          case 'on':
+            return 'pending';
+          default:
+            return 'off';
+     }
+   }
+
+   function update_sysinfo(){
+     $.getJSON("/sysinfo", function (data) {
+       // update UI
+       // console.log(data);
+       if (data['success']) {
+         $('#db_host')[0].textContent = data['db_host'];
+         $('#db_port')[0].textContent = data['db_port'];
+         $('#db_frames')[0].textContent = data['db_frames'];
+         if (data['status'] == STATUS_CLOSED){
+           $("#sys_status")[0].textContent = "未运行";
+           if(current_sys_status != data['status']) {
+	     current_sys_status = data['status'];
+             send({type:'ALL_OFF'});
+	   }
+         }
+         else if (data['status'] == STATUS_INIT){
+           $("#sys_status")[0].textContent = "初始化中，请等待...";
+           if(current_sys_status != data['status']) {
+	     current_sys_status = data['status'];
+             send({type:'PENDING'});
+	   }
+           setTimeout(function(){update_sysinfo();}, 1000);
+         }
+         else if (data['status'] == STATUS_CONNECTED){
+           $("#sys_status")[0].textContent = "连接成功";
+           if(current_sys_status != data['status']) {
+	     current_sys_status = data['status'];
+             send({type:'ALL_ON'});
+	   }
+           setTimeout(function(){update_sysinfo();}, 1000);
+         }
+         else if (data['status'] == STATUS_NETERROR){
+           $("#sys_status")[0].textContent = "网络错误，请检查主机程序及网络设置!";
+           if(current_sys_status != data['status']) {
+	     current_sys_status = data['status'];
+             send({type:'ALL_OFF'});
+	   }
+	 } else {
+           $("#sys_status")[0].textContent = "未运行";
+           if(current_sys_status != data['status']) {
+	     current_sys_status = data['status'];
+             send({type:'ALL_OFF'});
+	   }
+	 }
+       } else {
+         console.log("cannot get data");
+       }
+     });
+   }
+
+   let current = elApp.dataset.state;
+
+   function activate(state) {
+     elApp.dataset.state = current;
+     // elBody.dataset.toggleState = current;
+
+     document.querySelectorAll(`[data-active]`)
+       .forEach(el => delete el.dataset.active);
+     document.querySelectorAll(`[data-for="${current}"]`)
+       .forEach(el => el.dataset.active = true);
+   }
+
+   activate(current);
+
+   function send(event) {
+     const prevState = current;
+     elApp.dataset.prevState = prevState;
+
+     current = transition(current, event);
+
+     if (prevState === current) {
+       return;
+     }
+
+     activate(current);
+
+     switch (current) {
+       case 'off':
+         elToggle.indeterminate = false;
+         elToggle.checked = false;
+         elToggle.readOnly = false;
+         break;
+       case 'pending':
+         elToggle.readOnly = true;
+         elToggle.indeterminate = true;
+
+         setTimeout(() => {
+           // if (prevState === 'on') {
+             // send({
+               // type: 'ALL_OFF'
+             // })
+           // } else {
+             // send({
+               // type: 'ALL_ON'
+             // })
+           // }
+           if (current_sys_status == STATUS_INIT) {
+             send({
+               type: 'PENDING'
+             });
+	   } else if (current_sys_status == STATUS_CONNECTED) {
+             send({
+               type: 'ALL_ON'
+             });
+	   } else if (current_sys_status == STATUS_CLOSED) {
+             send({
+               type: 'ALL_OFF'
+             });
+	   } else if (current_sys_status == STATUS_NETERROR) {
+             send({
+               type: 'ALL_OFF'
+             });
+	   } else {
+             send({
+               type: 'ALL_OFF'
+             });
+           }
+         }, TIMEOUT);
+         break;
+       case 'on':
+         elToggle.readOnly = false;
+         elToggle.checked = true;
+         elToggle.indeterminate = false;
+         break;
+       default:
+         break;
+     }
+   }
+
+   elToggle.addEventListener('click', e => {
+     e.preventDefault();
+     if (current_sys_status === STATUS_INIT) {
+       alert("系统正在初始化中,当前不可操作");
+     } else if (current_sys_status === STATUS_CONNECTED) {
+       alert("系统已连接，不可重复开启");
+     } else {
+       $.getJSON("/start", function (data) {
+
+         update_sysinfo();
+	 if (data['status'] === 'success') {
+           send({
+             type: 'TOGGLE'
+           });
+	 }
+       }).error(
+	 function(){
+           alert('当前无法连接，请检查网络');
+	 }
+       );
+     }
+     update_sysinfo();
+   });
+
+    function ValidateIPaddress(ipaddress) {
+      if (ipaddress == ""){
+	return true;
+      }
+      if (/^(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)$/.test(ipaddress)) {
+        return true;
+      }
+      alert("IP格式错误!");
+      return false;
+    } 
+
+    function ValidatePort(port){
+      if (port == ""){
+	return true;
+      }
+      if (/^[0-9][0-9]?[0-9]?[0-9]?[0-9]?$/.test(port)) {
+        return true;
+      }
+      alert("端口格式错误!");
+      return false;
+    }
+
+    function ValidateFrames(frames){
+      if (frames == ""){
+	return true;
+      }
+      if (/^[0-9][0-9]?[0-9]?[0-9]?[0-9]?$/.test(frames)) {
+	frame_num = parseInt(frames);
+	if (frame_num < 25){
+          alert("帧数过少!");
+          return false;
+	}
+        return true;
+      }
+      alert("帧数格式错误!");
+      return false;
+    }
+
+    function start_submit() {
+      var ip = $("#ip")[0].value;
+      var port = $("#port")[0].value;
+      var frames = $("#frames")[0].value;
+
+      if (!(ValidateIPaddress(ip) && ValidatePort(port) && ValidateFrames(frames))){
+        return;
+      }
+
+      if (ip == "" && port == "" && frames == "") {
+        alert("请输入IP地址或端口号或帧数!");
+        return;
+      }
+
+      var formData = new FormData();
+      formData.append('host', ip);
+      formData.append('port', port);
+      formData.append('frames', frames);
+
+      $.ajax({
+        type: 'POST',
+        url: '/task',
+        cache: false,
+        data: formData,
+        processData: false,
+        contentType: false,
+        success: function (data, status, request) {
+          if(data['success']) {
+            $("#progress")[0].textContent = "更新成功";
+            update_sysinfo();
+          } else {
+            $("#progress")[0].textContent = "正在处理中，暂时不可更新";
+          }
+        },
+        error: function () {
+          alert('未知错误');
+        }
+      });
+    };
+
+    $(function () {
+      $('#update_button').click(start_submit);
+    });
+    function start_reset(){
+      $.getJSON("/reset", function (data) {
+        // update UI
+        if (data['success']) {
+          $('#progress')[0].textContent = "成功重置系统状态";
+        }
+        else {
+          $('#progress')[0].textContent = "充值系统错误";
+        }
+	update_sysinfo();
+      });
+    };
+
+    $(function () {
+      $('#reset_button').click(start_reset);
+    });
+
+    function update_status() {
+      // send GET request to status URL
+      $.getJSON("/status", function (data) {
+        // update UI
+        if (data['status'] == "connected") {
+          $('#status')[0].textContent = "设备已连接，正在处理中"
+        }
+        else {
+          $('#status')[0].textContent = "设备未连接"
+        }
+      });
+    }
+    // update_status();
+    // setTimeout(function () {update_status();}, 1000);
+    update_sysinfo();
+
+
+  </script>
+
+
+</body>
+
+</html>
